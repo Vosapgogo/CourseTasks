@@ -1,6 +1,5 @@
 package com.shpp.p2p.cs.oTyshchenko.assigment2;
 
-import acm.graphics.GOval;
 import acm.graphics.GRect;
 import com.shpp.cs.a.graphics.WindowProgram;
 
