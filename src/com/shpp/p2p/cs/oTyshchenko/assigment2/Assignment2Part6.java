@@ -13,13 +13,16 @@ public class Assignment2Part6 extends WindowProgram {
     // The number of segments (circles) the caterpillar consists of
     private static final int PARTS = 8;
 
+    private static final int SHIFT_TO_THE_RIGHT = 20;
+    private static final int SHIFT_TO_THE_TOP = 20;
+
     public void run() {
         // Calculate the diameter of each circle based on the window width
         int diameter = getWidth()/PARTS;
 
         // Calculate the horizontal and vertical spacing between overlapping segments
-        double diameterX=(diameter+20)/2.0;
-        double diameterY= diameter/2.0 - 10;
+        double diameterX=(diameter+SHIFT_TO_THE_RIGHT)/2.0;
+        double diameterY= diameter/2.0 - SHIFT_TO_THE_TOP;
 
         // Calculate the total width and height of entire caterpillar
         double widthOfPicture = (PARTS - 1) * diameterX + diameter;
