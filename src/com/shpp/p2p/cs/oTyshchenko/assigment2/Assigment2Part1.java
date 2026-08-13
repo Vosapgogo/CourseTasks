@@ -27,6 +27,10 @@ public class Assigment2Part1 {
             } else if (discriminant == 0) {
                 double onlyRoot = -b / (2 * a);
 
+                if (onlyRoot == -0.0) {
+                    onlyRoot = 0.0;
+                }
+
                 System.out.printf("There is one root: %.1f\n", onlyRoot);
             } else System.out.println("There are no real roots");
         }
