@@ -1,6 +1,7 @@
 package com.shpp.p2p.cs.oTyshchenko.assigment2;
 
 import acm.graphics.GOval;
+import acm.graphics.GRect;
 import com.shpp.cs.a.graphics.WindowProgram;
 
 import java.awt.*;
@@ -54,28 +55,26 @@ public class Assignment2Part3 extends WindowProgram {
      * @param y The y coord of the up-left corner
      */
     void drawPaw(double x, double y) {
-        GOval circle = new GOval(x+FIRST_TOE_OFFSET_X, y+FIRST_TOE_OFFSET_Y, 20, 30);
+        drawToe(x+FIRST_TOE_OFFSET_X, y+FIRST_TOE_OFFSET_Y);
+        drawToe(x+SECOND_TOE_OFFSET_X, y+SECOND_TOE_OFFSET_Y);
+        drawToe(x+THIRD_TOE_OFFSET_X, y+THIRD_TOE_OFFSET_Y);
+
+        drawHeel(x+HEEL_OFFSET_X, y+HEEL_OFFSET_Y);
+    }
+
+    public void drawToe(double x, double y) {
+        drawCircle(x,y,TOE_WIDTH, TOE_HEIGHT);
+    }
+
+    public void drawHeel(double x, double y) {
+        drawCircle(x,y,HEEL_WIDTH,HEEL_HEIGHT);
+    }
+
+    public void drawCircle(double x, double y, double width, double height) {
+        GOval circle = new GOval(x, y, width, height);
         circle.setColor(Color.BLACK);
         circle.setFilled(true);
         circle.setFillColor(Color.BLACK);
         add(circle);
-
-        GOval circle2 = new GOval(x+SECOND_TOE_OFFSET_X, y+SECOND_TOE_OFFSET_Y, 20, 30);
-        circle2.setColor(Color.BLACK);
-        circle2.setFilled(true);
-        circle2.setFillColor(Color.BLACK);
-        add(circle2);
-
-        GOval circle3 = new GOval(x+THIRD_TOE_OFFSET_X, y+THIRD_TOE_OFFSET_Y, 20, 30);
-        circle3.setColor(Color.BLACK);
-        circle3.setFilled(true);
-        circle3.setFillColor(Color.BLACK);
-        add(circle3);
-
-        GOval circle4 = new GOval(x+HEEL_OFFSET_X, y+HEEL_OFFSET_Y, 40, 60);
-        circle4.setColor(Color.BLACK);
-        circle4.setFilled(true);
-        circle4.setFillColor(Color.BLACK);
-        add(circle4);
     }
 }
