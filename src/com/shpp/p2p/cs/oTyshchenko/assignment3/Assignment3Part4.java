@@ -7,9 +7,9 @@ import java.awt.*;
 
 public class Assignment3Part4 extends WindowProgram {
     // Constants defining the dimensions of a single brick and the base size of the pyramid
-    static final double BRICK_HEIGHT = 30;
-    static final double BRICK_WIDTH = 50;
-    static final int BRICKS_IN_BASE = 10;
+    private static final double BRICK_HEIGHT = 30;
+    private static final double BRICK_WIDTH = 50;
+    private static final int BRICKS_IN_BASE = 10;
 
     public void run() {
         // Outer loop: iterates through each row from the bottom up (starting from the base row down to 1 brick)
