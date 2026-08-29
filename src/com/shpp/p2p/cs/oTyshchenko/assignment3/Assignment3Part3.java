@@ -3,6 +3,8 @@ package com.shpp.p2p.cs.oTyshchenko.assignment3;
 import java.util.Scanner;
 
 public class Assignment3Part3 {
+    private static final String ENTER_BASE = "Enter a base: ";
+    private static final String ENTER_EXPONENT = "Enter an exponent: ";
 
     /**
      * Calculates the result of raising a base to a given exponent.
@@ -26,10 +28,10 @@ public class Assignment3Part3 {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-        System.out.print("Enter a base: ");
+        System.out.print(ENTER_BASE);
         double base = scanner.nextDouble();
 
-        System.out.print("Enter an exponent: ");
+        System.out.print(ENTER_EXPONENT);
         int exponent = scanner.nextInt();
 
         // The method now handles everything internally, keeping the main method clean
