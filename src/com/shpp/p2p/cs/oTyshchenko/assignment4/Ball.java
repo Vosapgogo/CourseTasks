@@ -20,7 +20,7 @@ public class Ball {
     private static final double ACCELERATION = 0.04;
 
     // Maximum vertical velocity (terminal velocity)
-    private static final double MAX_VY = 7.0;
+    private static final double MAX_VY = 5.0;
 
     // Maximum distance the ball can move in a single step
     private static final double MAX_STEP = 4.0;
