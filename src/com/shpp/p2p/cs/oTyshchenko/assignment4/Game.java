@@ -1,9 +1,7 @@
 package com.shpp.p2p.cs.oTyshchenko.assignment4;
 
 import acm.graphics.GObject;
-import acm.graphics.GOval;
 import acm.graphics.GRect;
-import acm.util.RandomGenerator;
 import com.shpp.cs.a.graphics.WindowProgram;
 
 import java.awt.*;
@@ -50,30 +48,38 @@ public class Game extends WindowProgram {
 
     private boolean isDraggingRacket = false;
 
+    private Robot robot;
+
     public void run() {
-        drawFrame();
+        try {
+            robot = new Robot();
+            drawFrame();
 
-        Racket racket = new Racket();
-        double paddleX = (getWidth() - PADDLE_WIDTH) / 2.0;
-        double paddleY = getHeight() - PADDLE_HEIGHT - PADDLE_Y_OFFSET;
+            Racket racket = new Racket();
+            double paddleX = (getWidth() - PADDLE_WIDTH) / 2.0;
+            double paddleY = getHeight() - PADDLE_HEIGHT - PADDLE_Y_OFFSET;
 
-        racketGraphics = racket.drawRectangle(paddleX, paddleY, PADDLE_WIDTH, PADDLE_HEIGHT);
-        add(racketGraphics);
+            racketGraphics = racket.drawRectangle(paddleX, paddleY, PADDLE_WIDTH, PADDLE_HEIGHT);
+            add(racketGraphics);
 
-        Ball ball = new Ball();
-        double ballX = (getWidth() - BALL_RADIUS * 2) / 2.0;
-        double ballY = getHeight() / 2.0;
+            Ball ball = new Ball();
+            double ballX = (getWidth() - BALL_RADIUS * 2) / 2.0;
+            double ballY = getHeight() / 2.0;
 
-        add(ball.drawCircle(ballX, ballY, BALL_RADIUS * 2));
+            add(ball.drawCircle(ballX, ballY, BALL_RADIUS * 2));
 
-        Bricks bricks = new Bricks();
-        int availableWidth = getWidth() - 2 * FRAME_MARGIN - 2;
-        int brickWidth = (availableWidth - (NBRICKS_PER_ROW - 1) * BRICK_SEP) / NBRICKS_PER_ROW;
+            Bricks bricks = new Bricks();
+            int availableWidth = getWidth() - 2 * FRAME_MARGIN - 2;
+            int brickWidth = (availableWidth - (NBRICKS_PER_ROW - 1) * BRICK_SEP) / NBRICKS_PER_ROW;
 
-        bricks.wallBuilding(this, getWidth(), brickWidth, BRICK_HEIGHT, BRICK_SEP, NBRICK_ROWS, NBRICKS_PER_ROW, BRICK_Y_OFFSET);
-        addMouseListeners();
+            bricks.wallBuilding(this, getWidth(), brickWidth, BRICK_HEIGHT, BRICK_SEP, NBRICK_ROWS, NBRICKS_PER_ROW, BRICK_Y_OFFSET);
+            addMouseListeners();
 
-        playGame(ball);
+            playGame(ball);
+        } catch (AWTException e) {
+            e.printStackTrace();
+        }
+
     }
 
     public void drawFrame() {
@@ -116,10 +122,16 @@ public class Game extends WindowProgram {
 
     @Override
     public void mousePressed(MouseEvent e) {
-        GObject obj = getElementAt(e.getX(), e.getY());
+        isDraggingRacket = true;
 
-        if (obj == racketGraphics) {
-            isDraggingRacket = true;
+        double centerX = racketGraphics.getX() + PADDLE_WIDTH / 2.0;
+        double centerY = racketGraphics.getY() + PADDLE_HEIGHT / 2.0;
+
+        if (robot != null) {
+            Point componentLocation = e.getComponent().getLocationOnScreen();
+            int screenX = (int) (componentLocation.x + centerX);
+            int screenY = (int) (componentLocation.y + centerY);
+            robot.mouseMove(screenX, screenY);
         }
     }
 
@@ -133,8 +145,7 @@ public class Game extends WindowProgram {
 
             if (newX < leftBound) {
                 newX = leftBound;
-            }
-            else if (newX > rightBound) {
+            } else if (newX > rightBound) {
                 newX = rightBound;
             }
 
