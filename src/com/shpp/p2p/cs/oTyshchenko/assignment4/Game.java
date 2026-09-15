@@ -14,7 +14,7 @@ public class Game extends WindowProgram {
     public static final int APPLICATION_HEIGHT = 800;
 
     /** Dimensions of the paddle */
-    private static final int PADDLE_WIDTH = 60;
+    private static final int PADDLE_WIDTH = 100;
     private static final int PADDLE_HEIGHT = 10;
 
     /** Offset of the paddle up from the bottom */
@@ -324,7 +324,7 @@ public class Game extends WindowProgram {
         }
 
         // If the racket was clicked, start dragging it
-        if (obj == racketGraphics) {
+        if (obj != restartButton && bricksLeft!=0 && livesLeft!=0) {
             isDraggingRacket = true;
 
             // Calculate the center point of the racket
