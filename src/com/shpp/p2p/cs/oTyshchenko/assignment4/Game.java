@@ -1,5 +1,6 @@
 package com.shpp.p2p.cs.oTyshchenko.assignment4;
 
+import acm.graphics.GLabel;
 import acm.graphics.GObject;
 import acm.graphics.GRect;
 import com.shpp.cs.a.graphics.WindowProgram;
@@ -13,7 +14,7 @@ public class Game extends WindowProgram {
     public static final int APPLICATION_HEIGHT = 800;
 
     /** Dimensions of the paddle */
-    private static final int PADDLE_WIDTH = 60;
+    private static final int PADDLE_WIDTH = 800;
     private static final int PADDLE_HEIGHT = 10;
 
     /** Offset of the paddle up from the bottom */
@@ -44,9 +45,18 @@ public class Game extends WindowProgram {
 
     private GRect racketGraphics;
 
+    private GRect frameGraphics;
+
     private double vx, vy;
 
     private boolean isDraggingRacket = false;
+
+    private int livesLeft;
+    private boolean gameOver = false;
+
+    private GLabel loseMessage;
+    private GRect restartButton;
+    private GLabel restartLabel;
 
     private Robot robot;
 
@@ -83,23 +93,72 @@ public class Game extends WindowProgram {
     }
 
     public void drawFrame() {
-        GRect frame = new GRect(FRAME_MARGIN, FRAME_MARGIN, getWidth()-2*FRAME_MARGIN, getHeight()-2*FRAME_MARGIN);
-        frame.setColor(Color.BLACK);
-        add(frame);
+        frameGraphics = new GRect(FRAME_MARGIN, FRAME_MARGIN, getWidth()-2*FRAME_MARGIN, getHeight()-2*FRAME_MARGIN);
+        frameGraphics.setColor(Color.BLACK);
+        add(frameGraphics);
+    }
+
+    private boolean overlapsRacket(Ball ball) {
+        double ballLeft = ball.getX();
+        double ballRight = ball.getX() + BALL_RADIUS * 2;
+        double ballTop = ball.getY();
+        double ballBottom = ball.getY() + BALL_RADIUS * 2;
+
+        double racketLeft = racketGraphics.getX();
+        double racketRight = racketGraphics.getX() + PADDLE_WIDTH;
+        double racketTop = racketGraphics.getY();
+        double racketBottom = racketGraphics.getY() + PADDLE_HEIGHT;
+
+        return ballRight >= racketLeft && ballLeft <= racketRight
+                && ballBottom >= racketTop && ballTop <= racketBottom;
     }
 
     private void playGame(Ball ball) {
-        while (true) {
+        int bricksLeft = NBRICK_ROWS * NBRICKS_PER_ROW;
+        livesLeft = NTURNS;
+
+        waitForClick();
+
+        while (livesLeft > 0 && bricksLeft > 0) {
             ball.move(getWidth(), FRAME_MARGIN);
 
-            GObject collider = getCollidingObject(ball.getX(), ball.getY());
-
-            if (collider == racketGraphics) {
+            if (overlapsRacket(ball)) {
                 ball.bounceOffRacket(racketGraphics.getY());
+            } else {
+                GObject collider = getCollidingObject(ball.getX(), ball.getY());
+                if (collider != null && collider != frameGraphics && collider != racketGraphics) {
+                    remove(collider);
+                    ball.bounceVertically();
+                    bricksLeft--;
+                }
             }
 
-            pause(15);
+            if (ball.isBelowBottom(getHeight(), FRAME_MARGIN)) {
+                livesLeft--;
+                if (livesLeft > 0) {
+                    double ballX = (getWidth() - BALL_RADIUS * 2) / 2.0;
+                    double ballY = getHeight() / 2.0;
+                    ball.getGraphics().setLocation(ballX, ballY);
+
+                    waitForClick();
+                }
+            }
+
+            pause(8);
         }
+
+        displayGameOverMessage(bricksLeft == 0);
+    }
+
+    private void displayGameOverMessage(boolean won) {
+        String text = won ? "YOU WIN!" : "GAME OVER";
+        GLabel message = new GLabel(text);
+        message.setFont("SansSerif-bold-36");
+        message.setColor(won ? Color.GREEN : Color.RED);
+
+        double x = (getWidth() - message.getWidth()) / 2.0;
+        double y = (getHeight() + message.getAscent()) / 2.0;
+        add(message, x, y);
     }
 
     private GObject getCollidingObject(double ballX, double ballY) {
