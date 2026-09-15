@@ -1,6 +1,5 @@
 package com.shpp.p2p.cs.oTyshchenko.assignment4;
 
-import acm.graphics.GObject;
 import acm.graphics.GRect;
 
 import java.awt.*;
