@@ -35,15 +35,8 @@ public class AlgorismAlgorithms {
         while (!newN1.isEmpty() || !newN2.isEmpty() || prev > 0) {
             int sum = prev;
 
-            if (!newN1.isEmpty()) {
-                sum += getLastDigit(newN1);
-                deleteLastDigit(newN1);
-            }
-
-            if (!newN2.isEmpty()) {
-                sum += getLastDigit(newN2);
-                deleteLastDigit(newN2);
-            }
+            sum += popLastDigit(newN1);
+            sum += popLastDigit(newN2);
 
             number.add(sum % 10);
 
@@ -56,6 +49,15 @@ public class AlgorismAlgorithms {
         }
 
         return result.toString();
+    }
+
+    private static int popLastDigit(StringBuilder str) {
+        if (!str.isEmpty()) {
+            int digit = getLastDigit(str);
+            deleteLastDigit(str);
+            return digit;
+        }
+        return 0;
     }
 
     private static int getLastDigit(StringBuilder str) {
