@@ -13,7 +13,9 @@ public class AlgorismAlgorithms {
             String n1 = scanner.next();
             System.out.println("Enter second number:  ");
             String n2 = scanner.next();
+
             System.out.println(n1 + " + " + n2 + " = " + addNumericStrings(n1, n2));
+            System.out.println(n1 + " * " + n2 + " = " + multiplyNumericStrings(n1, n2));
             System.out.println();
         }
     }
@@ -49,6 +51,42 @@ public class AlgorismAlgorithms {
         }
 
         return result.toString();
+    }
+
+    private static String multiplyNumericStrings(String n1, String n2) {
+        if (n1.equals("0") || n2.equals("0")) {
+            return "0";
+        }
+
+        int len1 = n1.length();
+        int len2 = n2.length();
+        int[] result = new int[len1 + len2];
+
+        for (int i = len1 - 1; i >= 0; i--) {
+            for (int j = len2 - 1; j >= 0; j--) {
+                int digit1 = n1.charAt(i) - '0';
+                int digit2 = n2.charAt(j) - '0';
+
+                int product = digit1 * digit2;
+
+                int pos1 = i + j;
+                int pos2 = i + j + 1;
+
+                int sum = product + result[pos2];
+
+                result[pos2] = sum % 10;
+                result[pos1] += sum / 10;
+            }
+        }
+
+        StringBuilder sb = new StringBuilder();
+        for (int digit : result) {
+            if (!(sb.length() == 0 && digit == 0)) {
+                sb.append(digit);
+            }
+        }
+
+        return sb.toString();
     }
 
     private static int popLastDigit(StringBuilder str) {
