@@ -6,14 +6,25 @@ import com.shpp.cs.a.graphics.WindowProgram;
 import java.awt.*;
 
 public class Bricks {
+    /** Number of consecutive rows that share the same color */
+    private static final int ROWS_PER_COLOR = 2;
+
+    /** Minimum brick width/height in pixels, so bricks never shrink to invisible (0px) */
+    private static final int MIN_BRICK_SIZE = 1;
+
     /**
      * Builds the wall of bricks: calculates layout so the grid is centered
      * horizontally, then creates and adds each brick to the window,
      * coloring rows in groups of two using the colors array
      */
     public void wallBuilding(WindowProgram window, double windowWidth, int width, int height, int separation, int nRows, int nColumns, int yOffset) {
-        // Row colors, from top to bottom (each color spans 2 rows)
+        // Row colors, from top to bottom (each color spans 2 rows, then repeats)
         Color[] colors = {Color.RED, Color.ORANGE, Color.YELLOW, Color.GREEN, Color.CYAN};
+
+        // Guard against a computed width/height of 0 or less (e.g. way too many columns
+        // for the window), which would make bricks invisible instead of just small
+        width = Math.max(width, MIN_BRICK_SIZE);
+        height = Math.max(height, MIN_BRICK_SIZE);
 
         // Total width occupied by all bricks and the gaps between them
         double totalBricksWidth = nColumns * width + (nColumns - 1) * separation;
@@ -26,8 +37,9 @@ public class Bricks {
                 double brickX = startX + i * (width + separation);
                 double brickY = yOffset + j * (height + separation);
 
-                // Every two rows share the same color
-                Color brickColor = colors[j / 2];
+                // Cycle back through the palette every ROWS_PER_COLOR rows,
+                // so this works for any number of rows, not just up to 10
+                Color brickColor = colors[(j / ROWS_PER_COLOR) % colors.length];
 
                 GRect brick = drawRectangle(brickX, brickY, width, height, brickColor);
 
