@@ -8,7 +8,7 @@ import com.shpp.cs.a.graphics.WindowProgram;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 
-public class Game extends WindowProgram {
+public class Breakout extends WindowProgram {
     /** Width and height of application window in pixels */
     public static final int APPLICATION_WIDTH = 600;
     public static final int APPLICATION_HEIGHT = 800;
@@ -33,10 +33,10 @@ public class Game extends WindowProgram {
     private static final String FINISH_FONT ="SansSerif-bold-36";
 
     /** Number of bricks per row */
-    private static final int NBRICKS_PER_ROW = 10;
+    private static final int NBRICKS_PER_ROW = 9;
 
     /** Number of rows of bricks */
-    private static final int NBRICK_ROWS = 10;
+    private static final int NBRICK_ROWS = 20;
 
     /** Separation between bricks */
     private static final int BRICK_SEP = 4;
@@ -106,10 +106,10 @@ public class Game extends WindowProgram {
                 drawFrame();
 
                 // Set up a fresh racket, centered horizontally just above the bottom edge
-                Racket racket = new Racket();
+                Paddle paddle = new Paddle();
                 double paddleX = (getWidth() - PADDLE_WIDTH) / 2.0;
                 double paddleY = getHeight() - PADDLE_HEIGHT - PADDLE_Y_OFFSET;
-                racketGraphics = racket.drawRectangle(paddleX, paddleY, PADDLE_WIDTH, PADDLE_HEIGHT);
+                racketGraphics = paddle.drawRectangle(paddleX, paddleY, PADDLE_WIDTH, PADDLE_HEIGHT);
                 add(racketGraphics);
 
                 // Set up a fresh ball, centered in the middle of the window
